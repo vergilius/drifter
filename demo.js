@@ -53,15 +53,12 @@ Demo = {
     },
     loadScene: function( renderer ) {
 
-        renderer.loadJSONAsync('brainly.babylon', function( loaded ) {
+        renderer.loadJSONAsync('monkey.babylon', function( loaded ) {
             var newMeshes = renderer.createMeshFromJSON( loaded );
 
-            newMeshes[0].scaling.x = newMeshes[0].scaling.x / 2;
-            newMeshes[0].scaling.y /= 2;
-            newMeshes[0].scaling.z /= 2;
-
-            newMeshes[0].rotation.y = 1.55;
-            newMeshes[0].rotation.z = 3.1;
+//            newMeshes[0].rotation.x = 1.55;
+//            newMeshes[0].rotation.y = -1.55;
+//            newMeshes[0].rotation.z = 3.1;
             meshes = meshes.concat(newMeshes);
             console.error( newMeshes, loaded );
             requestAnimationFrame( Demo.draw );
@@ -70,23 +67,23 @@ Demo = {
     draw : function () {
 
         renderer.clear();
-
+        var speed = 0.005;
         meshes.forEach(function( mesh ) {
-            if( mesh.rotation.x >= 0.5 ) {
-                left = false;
-            } else if( mesh.rotation.x <= -0.5 ) {
-                left = true;
-            }
+//            if( mesh.rotation.x >= 0.3 ) {
+//                left = false;
+//            } else if( mesh.rotation.x <= -0.3 ) {
+//                left = true;
+//            }
 
-            if( left ) {
-                mesh.rotation.x += 0.01;
-                mesh.rotation.y += 0.01;
-                mesh.rotation.z += 0.01;
-            } else {
-                mesh.rotation.x -= 0.01;
-                mesh.rotation.y -= 0.01;
-                mesh.rotation.z -= 0.01;
-            }
+//            if( left ) {
+                mesh.rotation.x += speed;
+//                mesh.rotation.y += speed;
+//                mesh.rotation.z += speed;
+//            } else {
+//                mesh.rotation.x -= speed;
+//                mesh.rotation.y -= speed;
+//                mesh.rotation.z -= speed;
+//            }
 
 
         });
