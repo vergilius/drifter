@@ -9,15 +9,20 @@ var canvas,
     camera,
     Demo;
 
+var left = true;
+
 Demo = {
     initialize : function() {
 
         canvas = document.getElementById('display');
         mesh = new Engine.Mesh('box', 8, 12);
-        meshes.push( mesh );
+//        meshes.push( mesh );
         camera = new Engine.Camera();
+
         renderer = new Engine.Renderers.SoftwareRenderer( canvas );
 
+        // cube
+//
         mesh.vertices[0] = new BABYLON.Vector3(-1, 1, 1);
         mesh.vertices[1] = new BABYLON.Vector3(1, 1, 1);
         mesh.vertices[2] = new BABYLON.Vector3(-1, -1, 1);
@@ -41,19 +46,50 @@ Demo = {
         mesh.faces[10] = { A:4, B:5, C:6 };
         mesh.faces[11] = { A:4, B:6, C:7 };
 
-
         camera.position = new BABYLON.Vector3( 0, 0, 10 );
         camera.target = new BABYLON.Vector3( 0, 0, 0 );
 
+        Demo.loadScene( renderer );
+    },
+    loadScene: function( renderer ) {
 
-        requestAnimationFrame( Demo.draw );
+        renderer.loadJSONAsync('brainly.babylon', function( loaded ) {
+            var newMeshes = renderer.createMeshFromJSON( loaded );
+
+            newMeshes[0].scaling.x = newMeshes[0].scaling.x / 2;
+            newMeshes[0].scaling.y /= 2;
+            newMeshes[0].scaling.z /= 2;
+
+            newMeshes[0].rotation.y = 1.55;
+            newMeshes[0].rotation.z = 3.1;
+            meshes = meshes.concat(newMeshes);
+            console.error( newMeshes, loaded );
+            requestAnimationFrame( Demo.draw );
+        });
     },
     draw : function () {
 
         renderer.clear();
 
-        mesh.rotation.x += 0.01;
-        mesh.rotation.y += 0.01;
+        meshes.forEach(function( mesh ) {
+            if( mesh.rotation.x >= 0.5 ) {
+                left = false;
+            } else if( mesh.rotation.x <= -0.5 ) {
+                left = true;
+            }
+
+            if( left ) {
+                mesh.rotation.x += 0.01;
+                mesh.rotation.y += 0.01;
+                mesh.rotation.z += 0.01;
+            } else {
+                mesh.rotation.x -= 0.01;
+                mesh.rotation.y -= 0.01;
+                mesh.rotation.z -= 0.01;
+            }
+
+
+        });
 
         renderer.render( camera, meshes );
         renderer.flush();
