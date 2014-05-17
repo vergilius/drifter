@@ -46,19 +46,19 @@ Demo = {
         mesh.faces[10] = { A:4, B:5, C:6 };
         mesh.faces[11] = { A:4, B:6, C:7 };
 
-        camera.position = new BABYLON.Vector3( 0, 0, 10 );
-        camera.target = new BABYLON.Vector3( 0, 0, 0 );
+//        camera.position = new BABYLON.Vector3( 0, 0, 10 );
+//        camera.target = new BABYLON.Vector3( 0, 0, 0 );
 
         Demo.loadScene( renderer );
     },
     loadScene: function( renderer ) {
 
-        renderer.loadJSONAsync('monkey.babylon', function( loaded ) {
+        renderer.loadJSONAsync('brainly4.babylon', function( loaded ) {
             var newMeshes = renderer.createMeshFromJSON( loaded );
 
-//            newMeshes[0].rotation.x = 1.55;
+//            newMeshes[0].rotation.x = 0.85;
 //            newMeshes[0].rotation.y = -1.55;
-//            newMeshes[0].rotation.z = 3.1;
+//            newMeshes[0].rotation.z = 3;
             meshes = meshes.concat(newMeshes);
             console.error( newMeshes, loaded );
             requestAnimationFrame( Demo.draw );
@@ -76,7 +76,7 @@ Demo = {
 //            }
 
 //            if( left ) {
-                mesh.rotation.x += speed;
+//                mesh.rotation.x += speed;
 //                mesh.rotation.y += speed;
 //                mesh.rotation.z += speed;
 //            } else {
